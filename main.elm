@@ -28,7 +28,8 @@ addRow matrix =
 colors: Array.Array String
 colors = Array.fromList [
   "blue",
-  "green"
+  "green",
+  "purple"
   ]
 
 getColor val =
@@ -69,7 +70,7 @@ drawRow address rowidx row =
   div [style [("display", "flex")]] (Array.toList (Array.indexedMap (drawBox address rowidx) row))
 
 drawMatrix address matrix =
-  div [] (List.indexedMap (drawRow address) (matrixRows model))
+  div [] (List.indexedMap (drawRow address) (matrixRows matrix))
 
 drawAddBox address clickAction =
   div [ Html.Events.onClick address clickAction
