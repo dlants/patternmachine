@@ -55,10 +55,17 @@ boxsize model =
     Basics.min (width//(cols+1)) (height//(rows+1))
 
 colors: Array.Array String
-colors = Array.fromList [
-  "blue",
-  "green",
-  "purple"
+colors = Array.fromList
+  [ "#22a68a"
+  , "#7eb7d5"
+  , "#9bccb4"
+  , "#b696c8"
+  , "#fedf4a"
+  , "#bdd730"
+  , "#556896"
+  , "#f28f4a"
+  , "#e93830"
+  , "#f6dec6"
   ]
 
 getColor val =
