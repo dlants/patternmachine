@@ -10914,12 +10914,13 @@ Elm.PatternMachine.make = function (_elm) {
    var AddRow = {ctor: "AddRow"};
    var Increment = F2(function (a,b) {    return {ctor: "Increment",_0: a,_1: b};});
    var NoOp = {ctor: "NoOp"};
-   var colors = $Array.fromList(_U.list(["blue","green","purple"]));
+   var colors = $Array.fromList(_U.list(["#22a68a","#7eb7d5","#b696c8"]));
    var getColor = function (val) {    return A2($Maybe.withDefault,"red",A2($Array.get,A2($Basics._op["%"],val,$Array.length(colors)),colors));};
    var boxStyle = F2(function (val,size) {
       var sizeStr = A2($Basics._op["++"],$Basics.toString(size),"px");
       return $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "width",_1: sizeStr}
                                             ,{ctor: "_Tuple2",_0: "height",_1: sizeStr}
+                                            ,{ctor: "_Tuple2",_0: "margin",_1: "1px"}
                                             ,{ctor: "_Tuple2",_0: "background-color",_1: getColor(val)}]));
    });
    var drawBox = F5(function (address,size,rowidx,colidx,val) {
