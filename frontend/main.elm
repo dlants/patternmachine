@@ -55,11 +55,21 @@ boxsize model =
     Basics.min (width//(cols+1)) (height//(rows+1))
 
 colors: Array.Array String
-colors = Array.fromList [
-  "blue",
-  "green",
-  "purple"
+colors = Array.fromList
+  [ "#22a68a"
+  , "#7eb7d5"
+  , "#b696c8"
   ]
+
+  {--
+  , "#bdd730"
+  , "#9bccb4"
+  , "#fedf4a"
+  , "#556896"
+  , "#f28f4a"
+  , "#e93830"
+  , "#f6dec6"
+  ]--}
 
 getColor val =
   Array.get (val % Array.length colors) colors
@@ -101,6 +111,7 @@ boxStyle val size =
     style [
       ("width", sizeStr),
       ("height", sizeStr),
+      ("margin", "1px"),
       ("background-color", getColor val)
     ]
 
