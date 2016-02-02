@@ -108,6 +108,7 @@ boxStyle val size =
     style [
       ("width", sizeStr),
       ("height", sizeStr),
+      ("margin", "1px"),
       ("background-color", getColor val)
     ]
 
