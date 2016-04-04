@@ -10881,11 +10881,11 @@ Elm.StartApp.make = function (_elm) {
    var Config = F4(function (a,b,c,d) {    return {init: a,update: b,view: c,inputs: d};});
    return _elm.StartApp.values = {_op: _op,start: start,Config: Config,App: App};
 };
-Elm.PatternMachine = Elm.PatternMachine || {};
-Elm.PatternMachine.make = function (_elm) {
+Elm.Grid = Elm.Grid || {};
+Elm.Grid.make = function (_elm) {
    "use strict";
-   _elm.PatternMachine = _elm.PatternMachine || {};
-   if (_elm.PatternMachine.values) return _elm.PatternMachine.values;
+   _elm.Grid = _elm.Grid || {};
+   if (_elm.Grid.values) return _elm.Grid.values;
    var _U = Elm.Native.Utils.make(_elm),
    $Array = Elm.Array.make(_elm),
    $Basics = Elm.Basics.make(_elm),
@@ -10898,9 +10898,7 @@ Elm.PatternMachine.make = function (_elm) {
    $Matrix = Elm.Matrix.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
-   $Signal = Elm.Signal.make(_elm),
-   $StartApp = Elm.StartApp.make(_elm),
-   $Window = Elm.Window.make(_elm);
+   $Signal = Elm.Signal.make(_elm);
    var _op = {};
    var drawAddBox = F2(function (address,clickAction) {
       return A2($Html.div,
@@ -10909,7 +10907,6 @@ Elm.PatternMachine.make = function (_elm) {
       _U.list([$Html.text("+")]));
    });
    var Resize = function (a) {    return {ctor: "Resize",_0: a};};
-   var resize = A2($Signal.map,Resize,$Window.dimensions);
    var AddColumn = {ctor: "AddColumn"};
    var AddRow = {ctor: "AddRow"};
    var Increment = F2(function (a,b) {    return {ctor: "Increment",_0: a,_1: b};});
@@ -10917,7 +10914,7 @@ Elm.PatternMachine.make = function (_elm) {
    var colors = $Array.fromList(_U.list(["#22a68a","#7eb7d5","#b696c8"]));
    var getColor = function (val) {    return A2($Maybe.withDefault,"red",A2($Array.get,A2($Basics._op["%"],val,$Array.length(colors)),colors));};
    var boxStyle = F2(function (val,size) {
-      var sizeStr = A2($Basics._op["++"],$Basics.toString(size),"px");
+      var sizeStr = A2($Basics._op["++"],$Basics.toString(size - 2),"px");
       return $Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "width",_1: sizeStr}
                                             ,{ctor: "_Tuple2",_0: "height",_1: sizeStr}
                                             ,{ctor: "_Tuple2",_0: "margin",_1: "1px"}
@@ -10938,7 +10935,7 @@ Elm.PatternMachine.make = function (_elm) {
       var _p1 = model.window;
       var width = _p1._0;
       var height = _p1._1;
-      return A2($Basics.min,width / (cols + 1) | 0,height / (rows + 1) | 0);
+      return A2($Basics.min,width / cols | 0,height / rows | 0);
    };
    var addRow = function (matrix) {    return A2($Maybe.withDefault,matrix,A2($Matrix.concatVertical,matrix,A3($Matrix.repeat,$Matrix.width(matrix),1,0)));};
    var addColumn = function (matrix) {
@@ -10963,13 +10960,59 @@ Elm.PatternMachine.make = function (_elm) {
    var view = F2(function (address,model) {
       var size = boxsize(model);
       return A2($Html.div,
-      _U.list([]),
+      _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "display",_1: "flex"}
+                                              ,{ctor: "_Tuple2",_0: "align-items",_1: "center"}
+                                              ,{ctor: "_Tuple2",_0: "justify-content",_1: "center"}
+                                              ,{ctor: "_Tuple2",_0: "position",_1: "absolute"}
+                                              ,{ctor: "_Tuple2",_0: "top",_1: "0px"}
+                                              ,{ctor: "_Tuple2",_0: "bottom",_1: "0px"}
+                                              ,{ctor: "_Tuple2",_0: "left",_1: "0px"}
+                                              ,{ctor: "_Tuple2",_0: "right",_1: "0px"}]))]),
       _U.list([A2($Html.div,
-              _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "display",_1: "flex"}]))]),
-              _U.list([A3(drawMatrix,address,size,model.matrix),A2(drawAddBox,address,AddColumn)]))
-              ,A2(drawAddBox,address,AddRow)]));
+      _U.list([$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "display",_1: "flex"}]))]),
+      _U.list([A3(drawMatrix,address,size,model.matrix)]))]));
    });
    var Model = F2(function (a,b) {    return {matrix: a,window: b};});
+   var init = function (windowSize) {    return {ctor: "_Tuple2",_0: {matrix: A3($Matrix.repeat,10,10,0),window: windowSize},_1: $Effects.none};};
+   return _elm.Grid.values = {_op: _op
+                             ,init: init
+                             ,Model: Model
+                             ,matrixRows: matrixRows
+                             ,addColumn: addColumn
+                             ,addRow: addRow
+                             ,boxsize: boxsize
+                             ,colors: colors
+                             ,getColor: getColor
+                             ,NoOp: NoOp
+                             ,Increment: Increment
+                             ,AddRow: AddRow
+                             ,AddColumn: AddColumn
+                             ,Resize: Resize
+                             ,update: update
+                             ,boxStyle: boxStyle
+                             ,drawBox: drawBox
+                             ,drawRow: drawRow
+                             ,drawMatrix: drawMatrix
+                             ,drawAddBox: drawAddBox
+                             ,view: view};
+};
+Elm.PatternMachine = Elm.PatternMachine || {};
+Elm.PatternMachine.make = function (_elm) {
+   "use strict";
+   _elm.PatternMachine = _elm.PatternMachine || {};
+   if (_elm.PatternMachine.values) return _elm.PatternMachine.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Debug = Elm.Debug.make(_elm),
+   $Grid = Elm.Grid.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $StartApp = Elm.StartApp.make(_elm),
+   $Window = Elm.Window.make(_elm);
+   var _op = {};
+   var resize = A2($Signal.map,$Grid.Resize,$Window.dimensions);
    var windowSize = Elm.Native.Port.make(_elm).inbound("windowSize",
    "( Int, Int )",
    function (v) {
@@ -10979,31 +11022,7 @@ Elm.PatternMachine.make = function (_elm) {
                                                            ,_1: typeof v[1] === "number" && isFinite(v[1]) && Math.floor(v[1]) === v[1] ? v[1] : _U.badPort("an integer",
                                                            v[1])} : _U.badPort("an array",v);
    });
-   var startModel = {matrix: A3($Matrix.repeat,10,10,0),window: windowSize};
-   var app = $StartApp.start({init: {ctor: "_Tuple2",_0: startModel,_1: $Effects.none},view: view,update: update,inputs: _U.list([resize])});
+   var app = $StartApp.start({init: $Grid.init(windowSize),view: $Grid.view,update: $Grid.update,inputs: _U.list([resize])});
    var main = app.html;
-   return _elm.PatternMachine.values = {_op: _op
-                                       ,app: app
-                                       ,main: main
-                                       ,Model: Model
-                                       ,startModel: startModel
-                                       ,matrixRows: matrixRows
-                                       ,addColumn: addColumn
-                                       ,addRow: addRow
-                                       ,boxsize: boxsize
-                                       ,colors: colors
-                                       ,getColor: getColor
-                                       ,NoOp: NoOp
-                                       ,Increment: Increment
-                                       ,AddRow: AddRow
-                                       ,AddColumn: AddColumn
-                                       ,Resize: Resize
-                                       ,update: update
-                                       ,resize: resize
-                                       ,boxStyle: boxStyle
-                                       ,drawBox: drawBox
-                                       ,drawRow: drawRow
-                                       ,drawMatrix: drawMatrix
-                                       ,drawAddBox: drawAddBox
-                                       ,view: view};
+   return _elm.PatternMachine.values = {_op: _op,app: app,main: main,resize: resize};
 };
