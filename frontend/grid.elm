@@ -1,49 +1,30 @@
-module Grid (..) where
+module Grid exposing (..)
 
-import Effects
-import Window
-import Matrix
 import Array
+import Matrix
+import Window
 import Html exposing (..)
-import Html.Events exposing (..)
-import Html.Attributes exposing (..)
-import StartApp
+import Html.Attributes as Attributes
+import Html.Events as Events
 
 
+init: Window.Size -> Model
 init windowSize =
-  ( { matrix = (Matrix.repeat 10 10 0)
+    { matrix = (Matrix.repeat 10 10 0)
     , window = windowSize
     }
-  , Effects.none
-  )
-
 
 
 -- MODEL
 
-
 type alias Model =
   { matrix : Matrix.Matrix Int
-  , window : ( Int, Int )
+  , window : Window.Size
   }
 
-
+matrixRows: Matrix.Matrix a -> List (Array.Array a)
 matrixRows matrix =
   List.filterMap (\i -> Matrix.getRow i matrix) [0..Matrix.height (matrix) - 1]
-
-
-addColumn matrix =
-  Matrix.repeat 1 (Matrix.height matrix) 0
-    |> Matrix.concatHorizontal matrix
-    |> Maybe.withDefault matrix
-
-
-addRow matrix =
-  Matrix.repeat (Matrix.width matrix) 1 0
-    |> Matrix.concatVertical matrix
-    |> Maybe.withDefault matrix
-
-
 
 -- +1 for the add row/col
 
@@ -51,13 +32,10 @@ addRow matrix =
 boxsize : Model -> Int
 boxsize model =
   let
-    ( width, height ) =
-      model.window
-
     ( cols, rows ) =
       model.matrix.size
   in
-    Basics.min (width // cols) (height // rows)
+    Basics.min (model.window.width // cols) (model.window.height // rows)
 
 
 colors : Array.Array String
@@ -82,23 +60,19 @@ colors =
 -}
 
 
+getColor: Int -> String
 getColor val =
   Array.get (val % Array.length colors) colors
     |> Maybe.withDefault "red"
 
-
-
 -- UPDATE
 
 
-type Action
+type Msg
   = NoOp
   | Increment Int Int
-  | AddRow
-  | AddColumn
-  | Resize ( Int, Int )
 
-
+update: Msg -> Model -> Model
 update action model =
   let
     newModel =
@@ -108,70 +82,45 @@ update action model =
 
         Increment row col ->
           { model | matrix = Matrix.update col row (\val -> val + 1) model.matrix }
-
-        AddRow ->
-          { model | matrix = addRow model.matrix }
-
-        AddColumn ->
-          { model | matrix = addColumn model.matrix }
-
-        Resize window ->
-          { model | window = window }
   in
-    ( newModel, Effects.none )
-
+    newModel
 
 
 -- VIEW
-
-
+boxStyle: Int -> Int -> Attribute Msg
 boxStyle val size =
   let
     sizeStr =
       (toString (size - 2)) ++ "px"
   in
-    style
+    Attributes.style
       [ ( "width", sizeStr )
       , ( "height", sizeStr )
       , ( "margin", "1px" )
       , ( "background-color", getColor val )
       ]
 
-
-drawBox address size rowidx colidx val =
+drawBox: Int -> Int -> Int -> Int -> Html Msg
+drawBox size rowidx colidx val =
   div
-    [ Html.Events.onClick address (Increment rowidx colidx)
+    [ Events.onClick (Increment rowidx colidx)
     , boxStyle val size
     ]
     []
 
-
-drawRow address size rowidx row =
-  div [ style [ ( "display", "flex" ) ] ] (Array.toList (Array.indexedMap (drawBox address size rowidx) row))
-
-
-drawMatrix address size matrix =
-  div [] (List.indexedMap (drawRow address size) (matrixRows matrix))
+drawRow: Int -> Int -> Array.Array Int -> Html Msg
+drawRow size rowidx row =
+  div [ Attributes.style [ ( "display", "flex" ) ] ] (Array.toList (Array.indexedMap (drawBox size rowidx) row))
 
 
-drawAddBox address clickAction =
-  div
-    [ Html.Events.onClick address clickAction
-    , style
-        [ ( "background-color", "rgba(0,0,0,0.25)" )
-        , ( "color", "white" )
-        ]
-    ]
-    [ text "+" ]
-
-
-view address model =
+view: Model -> Html Msg
+view model =
   let
     size =
       boxsize model
   in
     div
-      [ style
+      [ Attributes.style
           [ ( "display", "flex" )
           , ( "align-items", "center" )
           , ( "justify-content", "center" )
@@ -183,6 +132,9 @@ view address model =
           ]
       ]
       [ div
-          [ style [ ( "display", "flex" ) ] ]
-          [ (drawMatrix address size model.matrix) ]
+          [ Attributes.style [ ( "display", "flex" ) ] ]
+          [ div
+              []
+              (List.indexedMap (drawRow size) (matrixRows model.matrix))
+          ]
       ]
