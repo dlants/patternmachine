@@ -12,6 +12,7 @@ import Html.App as App
 import Grid
 
 
+main : Program Never
 main =
     Navigation.program urlParser
         { init = init
@@ -47,23 +48,32 @@ url2intlist url =
         |> List.map (Result.withDefault 0)
 
 
+padToTen : List Int -> List Int
+padToTen list =
+    List.repeat (10 - (List.length list)) 0
+        |> List.append list
+
+
+groupByTens : List Int -> List (List Int)
+groupByTens list =
+    [0..9]
+        |> List.map
+            (\idx ->
+                List.drop (idx * 10) list
+                    |> List.take 10
+                    |> padToTen
+            )
+
+
 fromUrl : String -> Result String (Matrix.Matrix Int)
 fromUrl url =
     let
         results =
             url2intlist url
     in
-        if List.length results == 100 then
-            [0..9]
-                |> List.map
-                    (\idx ->
-                        List.drop (idx * 10) results
-                            |> List.take 10
-                    )
-                |> Matrix.fromList
-                |> Result.fromMaybe "error parsing hash"
-        else
-            Result.Err "wrong number of elements"
+        groupByTens results
+            |> Matrix.fromList
+            |> Result.fromMaybe "error parsing hash"
 
 
 urlParser : Navigation.Parser (Result String (Matrix.Matrix Int))
@@ -105,6 +115,7 @@ type Msg
     | GridMsg Grid.Msg
 
 
+onError : a -> Msg
 onError x =
     NoOp
 
@@ -114,6 +125,7 @@ onSuccess size =
     Resize size
 
 
+windowCmd : Cmd Msg
 windowCmd =
     Task.perform onError onSuccess Window.size
 

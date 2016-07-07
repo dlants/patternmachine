@@ -8604,6 +8604,27 @@ var _elm_lang$navigation$Navigation$subMap = F2(
 	});
 _elm_lang$core$Native_Platform.effectManagers['Navigation'] = {pkg: 'elm-lang/navigation', init: _elm_lang$navigation$Navigation$init, onEffects: _elm_lang$navigation$Navigation$onEffects, onSelfMsg: _elm_lang$navigation$Navigation$onSelfMsg, tag: 'fx', cmdMap: _elm_lang$navigation$Navigation$cmdMap, subMap: _elm_lang$navigation$Navigation$subMap};
 
+var _dlants$patternmachine$PatternMachine$padToTen = function (list) {
+	return A2(
+		_elm_lang$core$List$append,
+		list,
+		A2(
+			_elm_lang$core$List$repeat,
+			10 - _elm_lang$core$List$length(list),
+			0));
+};
+var _dlants$patternmachine$PatternMachine$groupByTens = function (list) {
+	return A2(
+		_elm_lang$core$List$map,
+		function (idx) {
+			return _dlants$patternmachine$PatternMachine$padToTen(
+				A2(
+					_elm_lang$core$List$take,
+					10,
+					A2(_elm_lang$core$List$drop, idx * 10, list)));
+		},
+		_elm_lang$core$Native_List.range(0, 9));
+};
 var _dlants$patternmachine$PatternMachine$url2intlist = function (url) {
 	return A2(
 		_elm_lang$core$List$map,
@@ -8619,21 +8640,11 @@ var _dlants$patternmachine$PatternMachine$url2intlist = function (url) {
 };
 var _dlants$patternmachine$PatternMachine$fromUrl = function (url) {
 	var results = _dlants$patternmachine$PatternMachine$url2intlist(url);
-	return _elm_lang$core$Native_Utils.eq(
-		_elm_lang$core$List$length(results),
-		100) ? A2(
+	return A2(
 		_elm_lang$core$Result$fromMaybe,
 		'error parsing hash',
 		_eeue56$elm_flat_matrix$Matrix$fromList(
-			A2(
-				_elm_lang$core$List$map,
-				function (idx) {
-					return A2(
-						_elm_lang$core$List$take,
-						10,
-						A2(_elm_lang$core$List$drop, idx * 10, results));
-				},
-				_elm_lang$core$Native_List.range(0, 9)))) : _elm_lang$core$Result$Err('wrong number of elements');
+			_dlants$patternmachine$PatternMachine$groupByTens(results)));
 };
 var _dlants$patternmachine$PatternMachine$urlParser = _elm_lang$navigation$Navigation$makeParser(
 	function (_p0) {
