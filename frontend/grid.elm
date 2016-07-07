@@ -80,6 +80,11 @@ type Msg
     | Increment Int Int
 
 
+increment : Int -> Int
+increment val =
+    (val + 1) % 3
+
+
 update : Msg -> Model -> Model
 update action model =
     let
@@ -89,7 +94,7 @@ update action model =
                     model
 
                 Increment row col ->
-                    { model | matrix = Matrix.update col row (\val -> val + 1) model.matrix }
+                    { model | matrix = Matrix.update col row increment model.matrix }
     in
         newModel
 

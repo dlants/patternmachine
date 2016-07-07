@@ -8055,6 +8055,9 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
+var _dlants$patternmachine$Grid$increment = function (val) {
+	return A2(_elm_lang$core$Basics_ops['%'], val + 1, 3);
+};
 var _dlants$patternmachine$Grid$update = F2(
 	function (action, model) {
 		var newModel = function () {
@@ -8065,14 +8068,7 @@ var _dlants$patternmachine$Grid$update = F2(
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						matrix: A4(
-							_eeue56$elm_flat_matrix$Matrix$update,
-							_p0._1,
-							_p0._0,
-							function (val) {
-								return val + 1;
-							},
-							model.matrix)
+						matrix: A4(_eeue56$elm_flat_matrix$Matrix$update, _p0._1, _p0._0, _dlants$patternmachine$Grid$increment, model.matrix)
 					});
 			}
 		}();
