@@ -9037,6 +9037,25 @@ var _dlants$patternmachine$Grid$view = function (model) {
 							_elm_lang$core$List$indexedMap,
 							_dlants$patternmachine$Grid$drawRow(size),
 							_dlants$patternmachine$Grid$matrixRows(model.matrix)))
+					])),
+				A2(
+				_elm_lang$html$Html$a,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$href('/'),
+						_elm_lang$html$Html_Attributes$style(
+						_elm_lang$core$Native_List.fromArray(
+							[
+								{ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
+								{ctor: '_Tuple2', _0: 'bottom', _1: '5px'},
+								{ctor: '_Tuple2', _0: 'right', _1: '10px'},
+								{ctor: '_Tuple2', _0: 'color', _1: '#666666'},
+								{ctor: '_Tuple2', _0: 'text-decoration', _1: 'none'}
+							]))
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('reset')
 					]))
 			]));
 };

@@ -142,4 +142,15 @@ view model =
                 [ div []
                     (List.indexedMap (drawRow size) (matrixRows model.matrix))
                 ]
+            , a
+                [ Attributes.href "/"
+                , Attributes.style
+                    [ ( "position", "absolute" )
+                    , ( "bottom", "5px" )
+                    , ( "right", "10px" )
+                    , ( "color", "#666666" )
+                    , ( "text-decoration", "none" )
+                    ]
+                ]
+                [ text "reset" ]
             ]
