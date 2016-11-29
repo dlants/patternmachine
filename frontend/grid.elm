@@ -49,8 +49,11 @@ colors =
         [ "#e2e2e2"
         , "#c0504d"
         , "#4781b9"
-        , "#1aad57"
         ]
+
+
+
+{--, "#1aad57"--}
 
 
 getColor : Int -> String

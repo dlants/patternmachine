@@ -8876,7 +8876,7 @@ var _elm_lang$html$Html_Events$Options = F2(
 
 var _dlants$patternmachine$Grid$colors = _elm_lang$core$Array$fromList(
 	_elm_lang$core$Native_List.fromArray(
-		['#e2e2e2', '#c0504d', '#4781b9', '#1aad57']));
+		['#e2e2e2', '#c0504d', '#4781b9']));
 var _dlants$patternmachine$Grid$getColor = function (val) {
 	return A2(
 		_elm_lang$core$Maybe$withDefault,
