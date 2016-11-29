@@ -45,12 +45,12 @@ url2intlist url =
         |> String.toList
         |> List.map String.fromChar
         |> List.map String.toInt
-        |> List.map (Result.withDefault 0)
+        |> List.map (Result.withDefault 1)
 
 
 padToTen : List Int -> List Int
 padToTen list =
-    List.repeat (10 - (List.length list)) 0
+    List.repeat (10 - (List.length list)) 1
         |> List.append list
 
 
@@ -102,7 +102,7 @@ init result =
                     }
 
                 Err _ ->
-                    { matrix = (Matrix.repeat 10 10 0)
+                    { matrix = (Matrix.repeat 10 10 1)
                     , window = { width = 100, height = 100 }
                     }
     in

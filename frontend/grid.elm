@@ -46,23 +46,11 @@ boxsize model =
 colors : Array.Array String
 colors =
     Array.fromList
-        [ "#22a68a"
-        , "#7eb7d5"
-        , "#b696c8"
+        [ "#e2e2e2"
+        , "#c0504d"
+        , "#4781b9"
+        , "#1aad57"
         ]
-
-
-
-{- -
-   , "#bdd730"
-   , "#9bccb4"
-   , "#fedf4a"
-   , "#556896"
-   , "#f28f4a"
-   , "#e93830"
-   , "#f6dec6"
-   ]-
--}
 
 
 getColor : Int -> String
@@ -82,7 +70,7 @@ type Msg
 
 increment : Int -> Int
 increment val =
-    (val + 1) % 3
+    (val + 1) % Array.length colors
 
 
 update : Msg -> Model -> Model
@@ -147,6 +135,7 @@ view model =
                 , ( "bottom", "0px" )
                 , ( "left", "0px" )
                 , ( "right", "0px" )
+                , ( "background-color", getColor 0 )
                 ]
             ]
             [ div [ Attributes.style [ ( "display", "flex" ) ] ]
