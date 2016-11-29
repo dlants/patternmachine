@@ -143,7 +143,7 @@ view model =
                     (List.indexedMap (drawRow size) (matrixRows model.matrix))
                 ]
             , a
-                [ Attributes.href "/"
+                [ Attributes.href "."
                 , Attributes.style
                     [ ( "position", "absolute" )
                     , ( "bottom", "5px" )

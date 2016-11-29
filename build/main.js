@@ -9042,7 +9042,7 @@ var _dlants$patternmachine$Grid$view = function (model) {
 				_elm_lang$html$Html$a,
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html_Attributes$href('/'),
+						_elm_lang$html$Html_Attributes$href('.'),
 						_elm_lang$html$Html_Attributes$style(
 						_elm_lang$core$Native_List.fromArray(
 							[
