@@ -9547,7 +9547,7 @@ var _dlants$patternmachine$PatternMachine$update = F2(
 		return {
 			ctor: '_Tuple2',
 			_0: model,
-			_1: _elm_lang$navigation$Navigation$newUrl(
+			_1: _elm_lang$navigation$Navigation$modifyUrl(
 				_dlants$patternmachine$PatternMachine$toUrl(model.matrix))
 		};
 	});

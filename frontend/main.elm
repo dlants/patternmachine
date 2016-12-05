@@ -144,7 +144,7 @@ update msg model =
                 GridMsg gridMsg ->
                     Grid.update gridMsg model
     in
-        ( model, Navigation.newUrl (toUrl model.matrix) )
+        ( model, Navigation.modifyUrl (toUrl model.matrix) )
 
 
 subscriptions : Grid.Model -> Sub Msg
